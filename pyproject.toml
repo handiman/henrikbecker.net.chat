@@ -1,0 +1,29 @@
+[project]
+name = "henrikbecker-py"
+version = "0.1.0"
+description = "REST API hosted as a Cloudflare Python Worker"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi",
+]
+
+[dependency-groups]
+dev = [
+    "httpx2>=2.13.1",
+    "pytest>=9.1.1",
+    "ruff>=0.17.0",
+    "workers-py",
+    "workers-runtime-sdk",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]

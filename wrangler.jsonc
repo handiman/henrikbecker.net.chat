@@ -1,0 +1,16 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "henrikbecker-api",
+	"main": "src/main.py",
+	"compatibility_date": "2026-10-12",
+	"compatibility_flags": ["python_workers"],
+	"observability": { "enabled": true },
+	// Rate limiting for anonymous access: 60 requests / 60 s per client IP (per Cloudflare location).
+	"ratelimits": [
+		{
+			"name": "RATE_LIMITER",
+			"namespace_id": "1001",
+			"simple": { "limit": 60, "period": 60 }
+		}
+	]
+}
