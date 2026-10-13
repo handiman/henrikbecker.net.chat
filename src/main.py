@@ -3,13 +3,18 @@ from fastapi.middleware.cors import CORSMiddleware
 from workers import asgi
 
 from api.rate_limit import rate_limit
-from api.v1.hello import router as hello_router
+from api.v1.ai import router as ai_router
+from api.v1.ping import router as ping_router
 
 ALLOWED_ORIGINS = [
     "https://henrikbecker.net",
     "https://www.henrikbecker.net",
     "https://becker-consulting.se",
     "https://www.becker-consulting.se",
+    "https://lena.fagervall.se",
+    "https://lena-fagervall.github.io",
+    "http://localhost:8787",
+    "http://localhost:8080",
 ]
 
 app = FastAPI(title="henrikbecker API", docs_url=None, redoc_url=None, openapi_url=None)
@@ -18,11 +23,13 @@ app = FastAPI(title="henrikbecker API", docs_url=None, redoc_url=None, openapi_u
 app.add_middleware(
     CORSMiddleware,
     allow_origins=ALLOWED_ORIGINS,
-    allow_methods=["GET", "OPTIONS"],
+    allow_methods=["GET", "POST", "OPTIONS"],
     allow_headers=["Content-Type"],
     max_age=86400,
 )
 
-app.include_router(hello_router, prefix="/api/v1", dependencies=[Depends(rate_limit)])
+app.include_router(ping_router, prefix="/api/v1", dependencies=[Depends(rate_limit)])
+# Same paths as the old ai-worker on ai.henrikbecker.net (/ask, /ingest); the CV bot relies on them.
+app.include_router(ai_router, dependencies=[Depends(rate_limit)])
 
 Default = asgi.entrypoint(app)

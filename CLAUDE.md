@@ -15,9 +15,10 @@ REST API (FastAPI) hosted as a Cloudflare Python Worker. Entrypoint: `src/main.p
 - `src/api/v1/` – v1 routers (mounted under `/api/v1`)
 - `tests/` – pytest; `conftest.py` stubs `workers` and injects a fake `RATE_LIMITER`
 - `src/api/rate_limit.py` – rate-limit dependency (per `CF-Connecting-IP`)
+- `src/api/v1/ai.py` – `POST /ask/{collection}` and `/ingest/{collection}` (same paths as the old worker on ai.henrikbecker.net, needed by the CV bot; `/ingress` is an alias); ported from the `ai-worker` in henrikbecker.cloudflare, forwards unchanged to `https://henrikbecker.azurewebsites.net/ai/...`. Outbound `fetch` is the `get_fetch` dependency (override in tests)
 
 ## Conventions
 - All endpoints are anonymous: every new router must include the `rate_limit` dependency.
-- CORS origins are listed in `ALLOWED_ORIGINS` in `src/main.py` (henrikbecker.net, becker-consulting.se); keep it an explicit allowlist, never `*`.
+- CORS origins are listed in `ALLOWED_ORIGINS` in `src/main.py` (henrikbecker.net, becker-consulting.se, lena.fagervall.se, lena-fagervall.github.io, plus localhost:8787/8080 for dev); keep it an explicit allowlist, never `*`.
 - Bindings are accessed via `request.scope["env"]`; don't hand-write secrets into config (use `wrangler secret put`).
 - Python Workers runtime is Pyodide: only pure-Python / Pyodide-supported packages work.

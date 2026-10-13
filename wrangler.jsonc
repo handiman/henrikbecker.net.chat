@@ -5,6 +5,7 @@
 	"compatibility_date": "2026-10-12",
 	"compatibility_flags": ["python_workers"],
 	"observability": { "enabled": true },
+	"routes": [{ "pattern": "ai.henrikbecker.net", "custom_domain": true }],
 	// Rate limiting for anonymous access: 60 requests / 60 s per client IP (per Cloudflare location).
 	"ratelimits": [
 		{
