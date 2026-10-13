@@ -17,6 +17,12 @@ REST API (FastAPI) hosted as a Cloudflare Python Worker. Entrypoint: `src/main.p
 - `src/api/rate_limit.py` – rate-limit dependency (per `CF-Connecting-IP`)
 - `src/api/v1/ai.py` – `POST /ask/{collection}` and `/ingest/{collection}` (same paths as the old worker on ai.henrikbecker.net, needed by the CV bot; `/ingress` is an alias); ported from the `ai-worker` in henrikbecker.cloudflare, forwards unchanged to `https://henrikbecker.azurewebsites.net/ai/...`. Outbound `fetch` is the `get_fetch` dependency (override in tests)
 
+## Branching and commits
+Full details in [CONTRIBUTING.md](CONTRIBUTING.md#making-a-change); the short version:
+- Never commit directly to `master`. Branch from `master` as `fix/…`, `feat/…`, `docs/…`, `refactor/…` or `ci/…`, and open a pull request back against `master` (link the issue with `Closes #123`).
+- Commit messages: `type(Scope): Subject`, e.g. `fix(API): Return 429 with CORS headers when rate limited`.
+- Before pushing: `uv run pytest`, `uv run ruff check .` and `uv run ruff format --check .`; add or update tests for the change.
+
 ## Conventions
 - All endpoints are anonymous: every new router must include the `rate_limit` dependency.
 - CORS origins are listed in `ALLOWED_ORIGINS` in `src/main.py` (henrikbecker.net, becker-consulting.se, lena.fagervall.se, lena-fagervall.github.io, plus localhost:8787/8080 for dev); keep it an explicit allowlist, never `*`.

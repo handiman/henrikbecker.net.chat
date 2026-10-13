@@ -37,5 +37,6 @@ Then try it with `curl http://localhost:8787/api/v1/ping`.
 1. Branch from `master`, named after the kind of change: `fix/…`, `feat/…`, `docs/…`, `refactor/…`, `ci/…`.
 2. Add or update tests for what you change.
 3. Run `uv run pytest`, `uv run ruff check .` and `uv run ruff format --check .` before you push.
-4. Write commit messages as `type(Scope): Subject`, for example `fix(API): Return 429 with CORS headers when rate limited`.5. Open a pull request against `master`. Say what it changes and why, and link the issue it closes (`Closes #123`).
+4. Write commit messages as `type(Scope): Subject`, for example `fix(API): Return 429 with CORS headers when rate limited`.
+5. Open a pull request against `master`. Say what it changes and why, and link the issue it closes (`Closes #123`).
 
