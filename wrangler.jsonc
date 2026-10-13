@@ -1,6 +1,6 @@
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
-	"name": "henrikbecker-api",
+	"name": "henrikbecker-py",
 	"main": "src/main.py",
 	"compatibility_date": "2026-10-12",
 	"compatibility_flags": ["python_workers"],
