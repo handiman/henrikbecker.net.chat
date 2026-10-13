@@ -12,6 +12,7 @@ import argparse
 import json
 import os
 import sys
+import time
 import urllib.error
 import urllib.request
 from pathlib import Path
@@ -24,11 +25,18 @@ from eval_cases import CASES  # noqa: E402
 
 def post(url: str, body: bytes, headers: dict[str, str]) -> tuple[int, str]:
     request = urllib.request.Request(url, data=body, headers=headers, method="POST")
-    try:
-        with urllib.request.urlopen(request, timeout=60) as response:
-            return response.status, response.read().decode()
-    except urllib.error.HTTPError as error:
-        return error.code, error.read().decode()
+    for attempt in range(3):
+        try:
+            with urllib.request.urlopen(request, timeout=60) as response:
+                return response.status, response.read().decode()
+        except urllib.error.HTTPError as error:
+            if error.code != 429 or attempt == 2:
+                return error.code, error.read().decode()
+            # /ask allows 10 questions a minute per IP; wait for the window to reset.
+            wait = int(error.headers.get("Retry-After", "60"))
+            print(f"   rate limited, waiting {wait} s ...", flush=True)
+            time.sleep(wait)
+    raise AssertionError("unreachable")
 
 
 def check(case: dict, answer: str) -> str | None:
