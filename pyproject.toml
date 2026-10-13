@@ -27,3 +27,7 @@ src = ["src", "tests"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B"]
+
+[tool.ruff.lint.per-file-ignores]
+# The prompt text is ported verbatim from PromptGuard.cs; keep its lines unwrapped.
+"src/api/cvbot/prompt.py" = ["E501"]

@@ -3,15 +3,48 @@
 	"name": "henrikbecker-py",
 	"main": "src/main.py",
 	"compatibility_date": "2026-10-12",
-	"compatibility_flags": ["python_workers"],
-	"observability": { "enabled": true },
-	"routes": [{ "pattern": "ai.henrikbecker.net", "custom_domain": true }],
-	// Rate limiting for anonymous access: 60 requests / 60 s per client IP (per Cloudflare location).
+	"compatibility_flags": [
+		"python_workers"
+	],
+	"observability": {
+		"enabled": true
+	},
+	"routes": [
+		{
+			"pattern": "ai.henrikbecker.net",
+			"custom_domain": true
+		}
+	],
+	// Workers AI (the CV bot's LLM). Model is chosen in src/api/cvbot/llm.py.
+	"ai": {
+		"binding": "AI"
+	},
+	// Holds the CV document (key cv:<collection>). Create with `wrangler kv namespace create CV_KV`.
+	"kv_namespaces": [
+		{
+			"binding": "CV_KV",
+			"id": "e85ccb465aea464c9c0aa84428e8bdc6"
+		}
+	],
+	// Secret (not in this file): INGEST_TOKEN, set with `wrangler secret put INGEST_TOKEN`.
 	"ratelimits": [
+		// Rate limiting for anonymous access: 60 requests / 60 s per client IP (per Cloudflare location).
 		{
 			"name": "RATE_LIMITER",
 			"namespace_id": "1001",
-			"simple": { "limit": 60, "period": 60 }
+			"simple": {
+				"limit": 60,
+				"period": 60
+			}
+		},
+		// Stricter limit on /ask, which costs LLM tokens: 10 requests / 60 s per client IP.
+		{
+			"name": "ASK_RATE_LIMITER",
+			"namespace_id": "1002",
+			"simple": {
+				"limit": 10,
+				"period": 60
+			}
 		}
 	]
 }
