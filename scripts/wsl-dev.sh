@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Run `pywrangler dev` inside WSL, since it does not work on native Windows.
-# Syncs this project to the WSL filesystem, installs uv/Node if missing, then starts the dev server.
+# Syncs this project to the WSL filesystem (keeping a local .dev.vars there), installs uv/Node if missing, then starts the dev server.
 # Usage (from WSL):  bash scripts/wsl-dev.sh [pywrangler dev args]
 # Usage (from Windows): .\scripts\wsl-dev.ps1 [pywrangler dev args]
 set -euo pipefail
@@ -26,14 +26,14 @@ command -v node >/dev/null && [[ "$(command -v node)" == "$NVM_DIR"/* ]] || nvm 
 
 echo ">> Syncing $SRC -> $DEST"
 mkdir -p "$DEST"
-EXCLUDES=(.git .venv .venv-workers python_modules node_modules .wrangler __pycache__ .pytest_cache .ruff_cache)
+EXCLUDES=(.git .venv .venv-workers python_modules node_modules .wrangler __pycache__ .pytest_cache .ruff_cache .dev.vars)
 if command -v rsync >/dev/null; then
     rsync -a --delete "${EXCLUDES[@]/#/--exclude=}" "$SRC/" "$DEST/"
 else
     # No rsync: clear stale files (keeping venvs/caches), then copy with tar.
     find "$DEST" -mindepth 1 -maxdepth 1 \
         ! -name .venv ! -name .venv-workers ! -name python_modules \
-        ! -name node_modules ! -name .wrangler -exec rm -rf {} +
+        ! -name node_modules ! -name .wrangler ! -name .dev.vars -exec rm -rf {} +
     (cd "$SRC" && tar "${EXCLUDES[@]/#/--exclude=}" -cf - .) | tar -xf - -C "$DEST"
 fi
 

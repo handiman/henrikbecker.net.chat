@@ -15,6 +15,8 @@ sys.modules.setdefault("workers.asgi", _asgi)
 
 from main import app  # noqa: E402
 
+INGEST_TOKEN = "test-ingest-token"
+
 
 class FakeRateLimiter:
     def __init__(self, allowed: int) -> None:
@@ -30,25 +32,42 @@ class InjectEnv:
     """ASGI middleware that adds the Workers `env` to the scope, as the runtime does."""
 
     limiter = FakeRateLimiter(allowed=1000)
+    ask_limiter = FakeRateLimiter(allowed=1000)
+    ingest_token = INGEST_TOKEN
 
     def __init__(self, app) -> None:
         self.app = app
 
     async def __call__(self, scope, receive, send) -> None:
-        scope["env"] = SimpleNamespace(RATE_LIMITER=self.limiter)
+        scope["env"] = SimpleNamespace(
+            RATE_LIMITER=self.limiter,
+            ASK_RATE_LIMITER=self.ask_limiter,
+            INGEST_TOKEN=self.ingest_token,
+            CV_KV=None,  # tests override get_store; a real KV only exists in the runtime
+        )
         await self.app(scope, receive, send)
 
 
 app.add_middleware(InjectEnv)
 
 
+def _client(*, allowed: int = 1000, ask_allowed: int = 1000) -> TestClient:
+    InjectEnv.limiter = FakeRateLimiter(allowed=allowed)
+    InjectEnv.ask_limiter = FakeRateLimiter(allowed=ask_allowed)
+    InjectEnv.ingest_token = INGEST_TOKEN
+    return TestClient(app)
+
+
 @pytest.fixture
 def client() -> TestClient:
-    InjectEnv.limiter = FakeRateLimiter(allowed=1000)
-    return TestClient(app)
+    return _client()
 
 
 @pytest.fixture
 def limited_client() -> TestClient:
-    InjectEnv.limiter = FakeRateLimiter(allowed=1)
-    return TestClient(app)
+    return _client(allowed=1)
+
+
+@pytest.fixture
+def ask_limited_client() -> TestClient:
+    return _client(ask_allowed=1)
