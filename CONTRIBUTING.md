@@ -14,7 +14,7 @@ The project is a FastAPI REST API hosted as a Cloudflare Python Worker.
 
 - `wrangler.jsonc`: Worker configuration, including the `RATE_LIMITER` binding.
 - `src/main.py`: the FastAPI app, CORS setup and router registration. Also the Worker entrypoint.
-- `src/api/v1/`: one module per resource, each exposing a router that is mounted under `/api/v1`.
+- `src/api/`: one module per resource (`ping.py`, `mcp.py`, `ai.py`), each exposing a router that is mounted at the root in `src/main.py`.
 - `src/api/rate_limit.py`: the rate-limit dependency, keyed on the client IP.
 
 Two rules for new endpoints: the API is anonymous, so every router must be mounted with the `rate_limit` dependency, and CORS stays an explicit allowlist (`ALLOWED_ORIGINS` in `src/main.py`), never `*`.
@@ -28,7 +28,7 @@ uv sync                    # install dependencies
 uv run pywrangler dev      # run locally at http://localhost:8787
 ```
 
-Then try it with `curl http://localhost:8787/api/v1/ping`.
+Then try it with `curl http://localhost:8787/ping`.
 
 `pywrangler dev` does not currently work on native Windows; use WSL. On Windows, `.\scripts\wsl-dev.ps1` does it all: it syncs the project into WSL, installs uv and Node if missing, and starts the dev server. The `workers` package only imports inside the Pyodide runtime, so stub it if you unit-test outside the Worker. Never commit secrets: use `wrangler secret put` or a local `.dev.vars` file (already git-ignored).
 

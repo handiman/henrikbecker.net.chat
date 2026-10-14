@@ -2,10 +2,10 @@ from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from workers import asgi
 
+from api.ai import router as ai_router
+from api.mcp import router as mcp_router
+from api.ping import router as ping_router
 from api.rate_limit import rate_limit
-from api.v1.ai import router as ai_router
-from api.v1.mcp import router as mcp_router
-from api.v1.ping import router as ping_router
 
 ALLOWED_ORIGINS = [
     "https://henrikbecker.net",
@@ -29,7 +29,7 @@ app.add_middleware(
     max_age=86400,
 )
 
-app.include_router(ping_router, prefix="/api/v1", dependencies=[Depends(rate_limit)])
+app.include_router(ping_router, dependencies=[Depends(rate_limit)])
 app.include_router(mcp_router, dependencies=[Depends(rate_limit)])
 # /ask and /ingest (used by the CV bot), with /ai/... as alias.
 app.include_router(ai_router, dependencies=[Depends(rate_limit)])
