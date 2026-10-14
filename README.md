@@ -1,4 +1,4 @@
-# chat-worker
+# chat
 
 REST API as a Cloudflare Python Worker (FastAPI).
 

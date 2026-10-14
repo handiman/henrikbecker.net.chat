@@ -1,4 +1,4 @@
-# chat-worker
+# chat
 
 REST API (FastAPI) hosted as a Cloudflare Python Worker. Entrypoint: `src/main.py` (`Default = asgi.entrypoint(app)`).
 
@@ -10,7 +10,7 @@ REST API (FastAPI) hosted as a Cloudflare Python Worker. Entrypoint: `src/main.p
 - `uv run pytest` – tests; `uv run ruff check .` / `uv run ruff format .` – lint/format
 
 ## Structure
-- `wrangler.jsonc` – Worker config, `python_workers` flag, `AI` and `CV_KV` bindings, `RATE_LIMITER` and `ASK_RATE_LIMITER` rate limits; secret `INGEST_TOKEN` (`wrangler secret put`) Served on workers.dev only (`https://chat-worker.henrik-becker.workers.dev`), no custom domain
+- `wrangler.jsonc` – Worker config, `python_workers` flag, `AI` and `CV_KV` bindings, `RATE_LIMITER` and `ASK_RATE_LIMITER` rate limits; secret `INGEST_TOKEN` (`wrangler secret put`) Served on workers.dev only (`https://chat.henrik-becker.workers.dev`), no custom domain
 - `src/main.py` – app, CORS, router registration
 - `src/api/v1/` – v1 routers (mounted under `/api/v1`)
 - `tests/` – pytest; `conftest.py` stubs `workers` and injects fake `RATE_LIMITER`, `ASK_RATE_LIMITER` and `INGEST_TOKEN`
