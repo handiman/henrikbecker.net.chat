@@ -12,8 +12,6 @@ ALLOWED_ORIGINS = [
     "https://www.henrikbecker.net",
     "https://becker-consulting.se",
     "https://www.becker-consulting.se",
-    "https://lena.fagervall.se",
-    "https://lena-fagervall.github.io",
 ]
 # Only allowed when the ALLOW_LOCALHOST var is "true" (set it in .dev.vars, never in production).
 DEV_ORIGINS = [
