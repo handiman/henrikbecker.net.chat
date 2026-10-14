@@ -1,6 +1,6 @@
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
-	"name": "henrikbecker-chat",
+	"name": "chat-worker",
 	"main": "src/main.py",
 	"compatibility_date": "2026-10-12",
 	"compatibility_flags": [
@@ -9,7 +9,7 @@
 	"observability": {
 		"enabled": true
 	},
-	// Served on workers.dev only (https://henrikbecker-chat.henrik-becker.workers.dev), no custom domain.
+	// Served on workers.dev only (https://chat-worker.henrik-becker.workers.dev), no custom domain.
 	"workers_dev": true,
 	// Workers AI (the CV bot's LLM). Model is chosen in src/api/cvbot/llm.py.
 	"ai": {
