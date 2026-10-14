@@ -1,4 +1,4 @@
-# henrikbecker-py
+# henrikbecker-net-chat
 
 REST API as a Cloudflare Python Worker (FastAPI).
 

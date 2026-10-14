@@ -1,6 +1,6 @@
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
-	"name": "henrikbecker-py",
+	"name": "henrikbecker-net-chat",
 	"main": "src/main.py",
 	"compatibility_date": "2026-10-12",
 	"compatibility_flags": [
@@ -9,14 +9,7 @@
 	"observability": {
 		"enabled": true
 	},
-	"routes": [
-		{
-			"pattern": "ai.henrikbecker.net",
-			"custom_domain": true
-		}
-	],
-	// Also served on workers.dev. The GitHub Action ingests the CV there, since the ai.henrikbecker.net
-	// zone challenges requests from GitHub Actions (Cloudflare bot protection) before they reach the Worker.
+	// Served on workers.dev only (https://henrikbecker-net-chat.henrik-becker.workers.dev), no custom domain.
 	"workers_dev": true,
 	// Workers AI (the CV bot's LLM). Model is chosen in src/api/cvbot/llm.py.
 	"ai": {
