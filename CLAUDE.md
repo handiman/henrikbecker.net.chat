@@ -27,6 +27,6 @@ Full details in [CONTRIBUTING.md](CONTRIBUTING.md#making-a-change); the short ve
 
 ## Conventions
 - All endpoints are anonymous: every new router must include the `rate_limit` dependency.
-- CORS origins are listed in `ALLOWED_ORIGINS` in `src/main.py` (henrikbecker.net, becker-consulting.se, lena.fagervall.se, lena-fagervall.github.io, plus localhost:8787/8080 for dev); keep it an explicit allowlist, never `*`.
+- CORS origins are listed in `ALLOWED_ORIGINS` in `src/main.py` (henrikbecker.net, becker-consulting.se); `localhost:8787/8080` are in `DEV_ORIGINS` and only allowed when the `ALLOW_LOCALHOST` var is `true` (`.dev.vars`, see `.dev.vars.example`; handled by `EnvCORSMiddleware` in `src/api/cors.py`). Keep it an explicit allowlist, never `*`.
 - Bindings are accessed via `request.scope["env"]`; don't hand-write secrets into config (use `wrangler secret put`).
 - Python Workers runtime is Pyodide: only pure-Python / Pyodide-supported packages work.

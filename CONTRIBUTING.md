@@ -30,7 +30,7 @@ uv run pywrangler dev      # run locally at http://localhost:8787
 
 Then try it with `curl http://localhost:8787/ping`.
 
-`pywrangler dev` does not currently work on native Windows; use WSL. On Windows, `.\scripts\wsl-dev.ps1` does it all: it syncs the project into WSL, installs uv and Node if missing, and starts the dev server. The `workers` package only imports inside the Pyodide runtime, so stub it if you unit-test outside the Worker. Never commit secrets: use `wrangler secret put` or a local `.dev.vars` file (already git-ignored).
+`pywrangler dev` does not currently work on native Windows; use WSL. On Windows, `.\scripts\wsl-dev.ps1` does it all: it syncs the project into WSL, installs uv and Node if missing, and starts the dev server. The `workers` package only imports inside the Pyodide runtime, so stub it if you unit-test outside the Worker. Never commit secrets: use `wrangler secret put` or a local `.dev.vars` file (already git-ignored). To call the dev server from a page on `localhost`, copy `.dev.vars.example` to `.dev.vars` (it sets `ALLOW_LOCALHOST=true`); under WSL create it in the synced folder, which `wsl-dev` leaves alone.
 
 ## Making a change
 
