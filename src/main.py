@@ -4,6 +4,7 @@ from workers import asgi
 
 from api.rate_limit import rate_limit
 from api.v1.ai import router as ai_router
+from api.v1.mcp import router as mcp_router
 from api.v1.ping import router as ping_router
 
 ALLOWED_ORIGINS = [
@@ -17,7 +18,7 @@ ALLOWED_ORIGINS = [
     "http://localhost:8080",
 ]
 
-app = FastAPI(title="henrikbecker API", docs_url=None, redoc_url=None, openapi_url=None)
+app = FastAPI(title="henrikbecker API", redoc_url=None)
 
 # Added last = outermost, so CORS headers are also present on 429 responses.
 app.add_middleware(
@@ -29,6 +30,7 @@ app.add_middleware(
 )
 
 app.include_router(ping_router, prefix="/api/v1", dependencies=[Depends(rate_limit)])
+app.include_router(mcp_router, dependencies=[Depends(rate_limit)])
 # /ask and /ingest (used by the CV bot), with /ai/... as alias.
 app.include_router(ai_router, dependencies=[Depends(rate_limit)])
 app.include_router(
