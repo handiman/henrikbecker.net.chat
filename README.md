@@ -2,7 +2,7 @@
 
 REST API as a Cloudflare Python Worker (FastAPI).
 
-- `GET /api/v1/ping` → `Pong` (`text/plain`)
+- `GET /ping` → `Pong` (`text/plain`)
 - `POST /ask/{collection}`, `POST /ingest/{collection}` (alias `/ingress/{collection}`) → forwarded to Azure
 - Rate limited per client IP (see `ratelimits` in `wrangler.jsonc`)
 - CORS allowed for henrikbecker.net and becker-consulting.se
