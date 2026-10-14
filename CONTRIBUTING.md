@@ -1,10 +1,10 @@
-# Contributing to henrikbecker.py
+# Contributing to henrikbecker.net.chat
 
 Thanks for taking an interest. Bug reports, ideas and pull requests are all welcome.
 
 ## Before you start
 
-- **Found a bug or have an idea?** Open an [issue](https://github.com/handiman/henrikbecker.py/issues). The templates ask for what's needed.
+- **Found a bug or have an idea?** Open an [issue](https://github.com/handiman/henrikbecker.net.chat/issues). The templates ask for what's needed.
 - **Planning a larger change?** Open an issue first, so we can agree on the approach before you put time into it.
 - **Found a security problem?** Don't open a public issue. Email [security@henrikbecker.se](mailto:security@henrikbecker.se) instead.
 

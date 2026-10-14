@@ -6,7 +6,7 @@
 set -euo pipefail
 
 SRC="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-DEST="${WSL_DEV_DIR:-$HOME/henrikbecker.py}"
+DEST="${WSL_DEV_DIR:-$HOME/henrikbecker.net.chat}"
 
 export PATH="$HOME/.local/bin:$PATH"
 

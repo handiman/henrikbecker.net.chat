@@ -1,5 +1,5 @@
 [project]
-name = "henrikbecker-py"
+name = "chat"
 version = "0.1.0"
 description = "REST API hosted as a Cloudflare Python Worker"
 readme = "README.md"

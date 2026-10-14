@@ -29,7 +29,7 @@ app.add_middleware(
 )
 
 app.include_router(ping_router, prefix="/api/v1", dependencies=[Depends(rate_limit)])
-# On ai.henrikbecker.net: /ask and /ingest (used by the CV bot), with /ai/... as alias.
+# /ask and /ingest (used by the CV bot), with /ai/... as alias.
 app.include_router(ai_router, dependencies=[Depends(rate_limit)])
 app.include_router(
     ai_router, prefix="/ai", include_in_schema=False, dependencies=[Depends(rate_limit)]

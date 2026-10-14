@@ -1,16 +1,16 @@
-# henrikbecker-py
+# chat
 
 REST API (FastAPI) hosted as a Cloudflare Python Worker. Entrypoint: `src/main.py` (`Default = asgi.entrypoint(app)`).
 
 ## Commands
 - `uv sync` – install deps
 - `uv run pywrangler dev` – local dev (http://localhost:8787); fails on native Windows, use WSL
-- `.\scripts\wsl-dev.ps1` (Windows) / `bash scripts/wsl-dev.sh` (WSL) – syncs the project to `~/henrikbecker.py` in WSL, installs uv/Node if missing, runs `pywrangler dev`
+- `.\scripts\wsl-dev.ps1` (Windows) / `bash scripts/wsl-dev.sh` (WSL) – syncs the project to `~/henrikbecker.net.chat` in WSL, installs uv/Node if missing, runs `pywrangler dev`
 - `uv run pywrangler deploy` – deploy
 - `uv run pytest` – tests; `uv run ruff check .` / `uv run ruff format .` – lint/format
 
 ## Structure
-- `wrangler.jsonc` – Worker config, `python_workers` flag, `AI` and `CV_KV` bindings, `RATE_LIMITER` and `ASK_RATE_LIMITER` rate limits; secret `INGEST_TOKEN` (`wrangler secret put`) Served on `ai.henrikbecker.net` and (`workers_dev`) workers.dev; CI ingests via workers.dev because the zone's bot protection challenges GitHub Actions
+- `wrangler.jsonc` – Worker config, `python_workers` flag, `AI` and `CV_KV` bindings, `RATE_LIMITER` and `ASK_RATE_LIMITER` rate limits; secret `INGEST_TOKEN` (`wrangler secret put`) Served on workers.dev only (`https://chat.henrik-becker.workers.dev`), no custom domain
 - `src/main.py` – app, CORS, router registration
 - `src/api/v1/` – v1 routers (mounted under `/api/v1`)
 - `tests/` – pytest; `conftest.py` stubs `workers` and injects fake `RATE_LIMITER`, `ASK_RATE_LIMITER` and `INGEST_TOKEN`
