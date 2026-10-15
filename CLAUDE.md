@@ -7,6 +7,7 @@ REST API (FastAPI) hosted as a Cloudflare Python Worker. Entrypoint: `src/main.p
 - `uv run pywrangler dev` – local dev (http://localhost:8787); fails on native Windows, use WSL
 - `.\scripts\wsl-dev.ps1` (Windows) / `bash scripts/wsl-dev.sh` (WSL) – syncs the project to `~/henrikbecker.net.chat` in WSL, installs uv/Node if missing, runs `pywrangler dev`
 - `uv run pywrangler deploy` – deploy
+- Cloudflare Workers Builds (Git integration, push to `master`): build command `uv run pytest`, deploy command `uv run pywrangler deploy`. There is no `build` script, so never set the build command to `uv run build`
 - `uv run pytest` – tests; `uv run ruff check .` / `uv run ruff format .` – lint/format
 
 ## Structure
