@@ -60,7 +60,7 @@ requires-dist = [{ name = "fastapi" }]
 [package.metadata.requires-dev]
 dev = [
     { name = "httpx2", specifier = ">=2.16.0" },
-    { name = "pytest", specifier = ">=9.1.1" },
+    { name = "pytest", specifier = ">=9.2.0" },
     { name = "ruff", specifier = ">=0.17.2" },
     { name = "workers-py" },
     { name = "workers-runtime-sdk" },
@@ -86,7 +86,7 @@ wheels = [
 
 [[package]]
 name = "fastapi"
-version = "0.143.0"
+version = "0.162.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "annotated-doc" },
@@ -96,9 +96,9 @@ dependencies = [
     { name = "typing-extensions" },
     { name = "typing-inspection" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/0b/d7/6a8753ab6c1d432dc53703c3e1b92974a94531b7d047c32bbaae461ea844/fastapi-0.143.0.tar.gz", hash = "sha256:1acffe48206a80917cf7dac21992b5c44b25384e8902bf745c1fd9dabcf6c51f", size = 468391, upload-time = "2026-10-08T12:29:46.54Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/e9/eb/2cf8c80abf09b2800aef0a83b41066fbfda8ee5495b7a08b9d1af40f7046/fastapi-0.162.0.tar.gz", hash = "sha256:6a22c1e2e6e32e0633ee7e170f00009a29b8228b16feb219ee42f32fd8d88a8f", size = 527867, upload-time = "2026-10-23T18:47:33.264Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/bd/f4/27e386913417ad32aae42bba48b0c0cce40e9ff2fba1a871ca2702c37324/fastapi-0.143.0-py3-none-any.whl", hash = "sha256:3e9395fd35276425b61b516a31fdd7c77fe2af83e41b4da22e30696fb1304c5d", size = 144665, upload-time = "2026-10-08T12:29:44.853Z" },
+    { url = "https://files.pythonhosted.org/packages/b4/4f/3f2c25c9b43970b5e9a08beb5e04776247edea684ddc0930f4f02f0bb6cb/fastapi-0.162.0-py3-none-any.whl", hash = "sha256:3785963de305dd09912426cb81f2d230fce98ab3521cdfe97265c8d14983128c", size = 148912, upload-time = "2026-10-23T18:47:31.734Z" },
 ]
 
 [[package]]
@@ -455,7 +455,7 @@ wheels = [
 
 [[package]]
 name = "pytest"
-version = "9.1.1"
+version = "9.2.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "colorama", marker = "sys_platform == 'win32'" },
@@ -464,9 +464,9 @@ dependencies = [
     { name = "pluggy" },
     { name = "pygments" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/e4/47/b9efed96c114afcfa3c9d3fe98a76a1d14c74a9e266d397cf6eb64be5e01/pytest-9.1.1.tar.gz", hash = "sha256:1088fbde8f2b49d95a549a195707afa7a76a3ce9bcadc26b6d71f0ffda5fe313", size = 1636369, upload-time = "2026-06-19T10:58:32.857Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/79/42/bb4641652e58dedeac2ec51abc1f8cae4fee4ec63899a0999016229a0f2a/pytest-9.2.0.tar.gz", hash = "sha256:97c4f3b1f3c7414aa36465e09b8220f1d03627993bd51b1282e193753c80557b", size = 1797555, upload-time = "2026-10-27T21:30:20.728Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/24/25/1de2678b631f5a49215c6c96fff41ba892b0a34df68d6d80292b1b48aa7f/pytest-9.1.1-py3-none-any.whl", hash = "sha256:37a86b45efb9a47a61a36449063e8e18d0cab3161329fc099eb21783169c4f0c", size = 386536, upload-time = "2026-06-19T10:58:31.347Z" },
+    { url = "https://files.pythonhosted.org/packages/51/39/1f5d8c8877a0fa327db959c19341d4be61660de1ab6b7391f9eb805bcd67/pytest-9.2.0-py3-none-any.whl", hash = "sha256:07acdcf88ec174f907dc01af70bf52d49b014bbab03faeeade31c96b18c2e588", size = 411776, upload-time = "2026-10-27T21:30:19.131Z" },
 ]
 
 [[package]]
@@ -551,7 +551,7 @@ wheels = [
 
 [[package]]
 name = "workers-py"
-version = "1.17.7"
+version = "1.17.9"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "click" },
@@ -562,16 +562,16 @@ dependencies = [
     { name = "rich" },
     { name = "workers-runtime-sdk" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/e6/fc/d99e4347840561c9b462e77fa91956b3960f6f95abc188a6b9132070c817/workers_py-1.17.7.tar.gz", hash = "sha256:b937f9c8ccde216ecbb2ba96e2cc7b0dd388947b855413c9e1d8a6f84606cccc", size = 74386, upload-time = "2026-10-06T04:01:18.502Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/3f/cc/2801b0cd37054ac56de2c05cc851eac13cb6d45ecce707b8d668bd528efb/workers_py-1.17.9.tar.gz", hash = "sha256:546596d5573978f46b074aef9ee750baed7bf59b5a0dceb78ebb5fc62a8e4f34", size = 74783, upload-time = "2026-10-23T02:58:53.989Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/27/e3/7d98af900d3db0f53befe3acf9c40badc237a5e4447ebce3f8570206e25a/workers_py-1.17.7-py3-none-any.whl", hash = "sha256:4bb9253798f7098fb5dc68f5d5f6ccaa267d1a205bc323fd4ebf4d4beeb2ffb1", size = 19506, upload-time = "2026-10-06T04:01:15.16Z" },
+    { url = "https://files.pythonhosted.org/packages/9a/9b/372843fd98bacbbb6eb52a45724ee1098e4e6c0d81c9bd973c9ac9df4929/workers_py-1.17.9-py3-none-any.whl", hash = "sha256:7a28bfd12d28c1ceabc148aeccafe9a54f9be95ef13ebeb46de842f528167d40", size = 19563, upload-time = "2026-10-23T02:58:52.824Z" },
 ]
 
 [[package]]
 name = "workers-runtime-sdk"
-version = "1.9.3"
+version = "1.9.5"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/c9/26/2616d75278d21004c0ea11d104f8f81c5ad94a9aeb6d2f4bf129419d47a5/workers_runtime_sdk-1.9.3.tar.gz", hash = "sha256:f2c043fb8a0385a9e3a2ec80d2f4ac4a742af4f5e69652e4df55714e29deaa2e", size = 143213, upload-time = "2026-10-06T04:01:19.461Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/72/4e/7f9437226c96dee20a0e80053e7e0fbc39fb6ae2f5a43374e317e0a37945/workers_runtime_sdk-1.9.5.tar.gz", hash = "sha256:605c87a36a38557bf4ccf657de22fe4ee85fb96b1b04c1aacaa476b461ef71bc", size = 146741, upload-time = "2026-10-20T07:54:23.577Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/aa/06/9472faa56bf7f3925d1128fda0532a9ec8adf3291a6003a4cf9c9d7972d0/workers_runtime_sdk-1.9.3-py3-none-any.whl", hash = "sha256:b3982ef01b824703258bbdd2c65980b8acc64f9dc5797f6b193eaf4f0808860f", size = 39541, upload-time = "2026-10-06T04:01:16.427Z" },
+    { url = "https://files.pythonhosted.org/packages/ad/33/1154f8d518becf3ca3dea57627dea7a84888937cf7b313e6dc4e6f7c7fdf/workers_runtime_sdk-1.9.5-py3-none-any.whl", hash = "sha256:f2b912660a3ab60d2a24920106422f9eaf4cd7a794e42b022237ad2444287fef", size = 41297, upload-time = "2026-10-20T07:54:21.826Z" },
 ]
