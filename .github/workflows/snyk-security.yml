@@ -54,9 +54,20 @@ jobs:
       - name: Snyk Code test
         run: snyk code test --sarif-file-output=snyk-code.sarif # || true
 
+        # Snyk does not read uv.lock, so export the locked runtime dependencies to a
+        # requirements.txt and install them; Snyk resolves Python dependencies from the environment.
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.13"
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+      - name: Export locked dependencies
+        run: |
+          uv export --no-dev --no-hashes --no-emit-project -o requirements.txt
+          pip install -r requirements.txt
+
         # Runs Snyk Open Source (SCA) analysis and uploads result to Snyk.
       - name: Snyk Open Source monitor
-        run: snyk monitor --all-projects
+        run: snyk monitor --file=requirements.txt --package-manager=pip
 
         # Not used in this repo (no IaC files). Uncomment if you have Terraform/Kubernetes/etc.
         # Runs Snyk Infrastructure as Code (IaC) analysis and uploads result to Snyk.
