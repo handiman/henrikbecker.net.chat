@@ -1,0 +1,34 @@
+# DAST: runs the OWASP ZAP API scan against the deployed Worker.
+#
+# ZAP imports the OpenAPI definition FastAPI publishes at /openapi.json, so every
+# endpoint is covered without crawling. `-S` is safe mode: passive checks only
+# (headers, CORS, information leaks), no attacks. An active scan against production
+# would spend Workers AI tokens on /ask and mostly hit the rate limiters, so that is
+# meant to run against a local `pywrangler dev` later (see #19).
+#
+# Not run on pull requests: the target is production, not the PR's code.
+# Reports (HTML, Markdown, JSON) are uploaded as the `zap_scan` artifact.
+# Findings can be suppressed, with a reason, in a rules file passed via `rules_file_name`.
+
+name: ZAP API Scan
+
+on:
+  schedule:
+    - cron: "23 5 * * 2"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  zap:
+    name: ZAP API scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: zaproxy/action-api-scan@5158fe4d9d8fcc75ea204db81317cce7f9e5453d # v0.10.0
+        with:
+          target: https://chat.henrik-becker.workers.dev/openapi.json
+          format: openapi
+          cmd_options: "-S"
+          allow_issue_writing: false
+          fail_action: false
