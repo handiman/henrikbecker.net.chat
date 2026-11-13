@@ -1,12 +1,12 @@
 import pytest
 
+from test_api import mcp
+
 LOCALHOST = "http://localhost:8787"
 
 
 def allow_origin(client, origin):
-    return client.get("/ping", headers={"Origin": origin}).headers.get(
-        "access-control-allow-origin"
-    )
+    return mcp(client, headers={"Origin": origin}).headers.get("access-control-allow-origin")
 
 
 def test_localhost_is_denied_by_default(client):
