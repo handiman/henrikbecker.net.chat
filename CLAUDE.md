@@ -7,11 +7,11 @@ REST API (FastAPI) hosted as a Cloudflare Python Worker. Entrypoint: `src/main.p
 - `uv run pywrangler dev` – local dev (http://localhost:8787); fails on native Windows, use WSL
 - `.\scripts\wsl-dev.ps1` (Windows) / `bash scripts/wsl-dev.sh` (WSL) – syncs the project to `~/henrikbecker.net.chat` in WSL, installs uv/Node if missing, runs `pywrangler dev`
 - `uv run pywrangler deploy` – deploy
-- Cloudflare Workers Builds (Git integration, push to `master`): build command `uv run pytest`, deploy command `uv run pywrangler deploy`. There is no `build` script, so never set the build command to `uv run build`
+- Cloudflare Workers Builds (Git integration, push to `master`): build command `uv run pytest`, deploy command `curl -LsSf https://astral.sh/uv/install.sh | sh && export PATH="$HOME/.local/bin:$PATH" && uv run pywrangler deploy` (pywrangler needs uv >= 0.13.4 and the build image's uv is older; `uv self update` fails there because that uv isn't a standalone install). There is no `build` script, so never set the build command to `uv run build`
 - `uv run pytest` – tests; `uv run ruff check .` / `uv run ruff format .` – lint/format
 
 ## Structure
-- `wrangler.jsonc` – Worker config, `python_workers` flag, `AI` and `CV_KV` bindings, `RATE_LIMITER` and `ASK_RATE_LIMITER` rate limits; secret `INGEST_TOKEN` (`wrangler secret put`) Served on workers.dev only (`https://chat.henrik-becker.workers.dev`), no custom domain
+- `wrangler.jsonc` – Worker config, `python_workers` flag (pywrangler derives the Worker's Python version from `compatibility_date`, currently 3.14, so keep `requires-python` and `.python-version` in line), `AI` and `CV_KV` bindings, `RATE_LIMITER` and `ASK_RATE_LIMITER` rate limits; secret `INGEST_TOKEN` (`wrangler secret put`) Served on workers.dev only (`https://chat.henrik-becker.workers.dev`), no custom domain
 - `src/main.py` – app, CORS, router registration
 - `src/api/` – routers (`mcp.py`, `ai.py`), all mounted at the root; no versioned prefix, this is a small single-purpose service
 - `tests/` – pytest; `conftest.py` stubs `workers` and injects fake `RATE_LIMITER`, `ASK_RATE_LIMITER` and `INGEST_TOKEN`
