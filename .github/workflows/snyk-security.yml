@@ -3,24 +3,18 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-# A sample workflow which sets up Snyk to analyze the full Snyk platform (Snyk Open Source, Snyk Code,
-# Snyk Container and Snyk Infrastructure as Code)
-# The setup installs the Snyk CLI - for more details on the possible commands
-# check https://docs.snyk.io/snyk-cli/cli-reference
-# The results of Snyk Code are then uploaded to GitHub Security Code Scanning
+# Runs Snyk Code (SAST) and Snyk Open Source (SCA) on every push and pull request to master.
+# Snyk Code results are uploaded to GitHub Code Scanning; Open Source results go to Snyk.
 #
-# In order to use the Snyk Action you will need to have a Snyk API token.
-# More details in https://github.com/snyk/actions#getting-your-snyk-token
-# or you can signup for free at https://snyk.io/login
-#
-# For more examples, including how to limit scans to only high-severity issues
-# and fail PR checks, see https://github.com/snyk/actions/
+# Requires the repository secret SNYK_TOKEN (and the same secret under Dependabot secrets so
+# Dependabot PRs can run it), and Snyk Code enabled for the Snyk organization.
+# CLI reference: https://docs.snyk.io/snyk-cli/cli-reference
 
 name: Snyk Security
 
 on:
   push:
-    branches: ["master" ]
+    branches: ["master"]
   pull_request:
     branches: ["master"]
 
@@ -38,24 +32,16 @@ jobs:
       SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
-      - name: Set up Snyk CLI to check for security issues
-        # Snyk can be used to break the build when it detects security issues.
-        # In this case we want to upload the SAST issues to GitHub Code Scanning
+      - name: Set up Snyk CLI
         uses: snyk/actions/setup@806182742461562b67788a64410098c9d9b96adb
 
-        # For Snyk Open Source you must first set up the development environment for your application's dependencies
-        # For example for Node
-        #- uses: actions/setup-node@v4
-        #  with:
-        #    node-version: 20
-
-        # Runs Snyk Code (SAST) analysis and uploads result into GitHub.
-        # Use || true to not fail the pipeline
+      # Snyk Code (SAST): prints findings to the log and writes SARIF for GitHub.
+      # Add `|| true` to not fail the pipeline on findings.
       - name: Snyk Code test
-        run: snyk code test --sarif-file-output=snyk-code.sarif # || true
+        run: snyk code test --sarif-file-output=snyk-code.sarif
 
-        # Snyk does not read uv.lock, so export the locked runtime dependencies to a
-        # requirements.txt and install them; Snyk resolves Python dependencies from the environment.
+      # Snyk does not read uv.lock, so export the locked runtime dependencies to a
+      # requirements.txt and install them; Snyk resolves Python dependencies from the environment.
       - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with:
           python-version: "3.13"
@@ -65,25 +51,11 @@ jobs:
           uv export --no-dev --no-hashes --no-emit-project -o requirements.txt
           pip install -r requirements.txt
 
-        # Runs Snyk Open Source (SCA) analysis and uploads result to Snyk.
+      # Snyk Open Source (SCA): uploads the dependency snapshot to Snyk.
       - name: Snyk Open Source monitor
         run: snyk monitor --file=requirements.txt --package-manager=pip
 
-        # Not used in this repo (no IaC files). Uncomment if you have Terraform/Kubernetes/etc.
-        # Runs Snyk Infrastructure as Code (IaC) analysis and uploads result to Snyk.
-        # Use || true to not fail the pipeline.
-      #- name: Snyk IaC test and report
-      #  run: snyk iac test --report # || true
-
-        # Not used in this repo (no Dockerfile). Uncomment and set the image name if you build a container.
-        # Build the docker image for testing
-      #- name: Build a Docker image
-      #  run: docker build -t your/image-to-test .
-        # Runs Snyk Container (Container and SCA) analysis and uploads result to Snyk.
-      #- name: Snyk Container monitor
-      #  run: snyk container monitor your/image-to-test --file=Dockerfile
-
-        # Push the Snyk Code results into GitHub Code Scanning tab
+      # Upload even when the scan found issues, as long as a SARIF file was written.
       - name: Upload result to GitHub Code Scanning
         if: always() && hashFiles('snyk-code.sarif') != ''
         uses: github/codeql-action/upload-sarif@9418214df1f2c4b8128c770156c409013b07d6b9 # v3
