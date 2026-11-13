@@ -15,6 +15,7 @@ from api.cvbot.llm import _extract_text
 from api.cvbot.prompt import build_system_prompt
 from conftest import INGEST_TOKEN, InjectEnv
 from main import app
+from test_api import mcp
 
 ALLOWED = "https://henrikbecker.net"
 AUTH = {"Authorization": f"Bearer {INGEST_TOKEN}"}
@@ -152,7 +153,7 @@ def test_ask_is_rate_limited_separately(ask_limited_client, store, llm):
     assert ask(ask_limited_client, "/ask", "hi").status_code == 429
     assert len(llm.calls) == 1
     # Other routes use the general limiter only.
-    assert ask_limited_client.get("/ping").status_code == 200
+    assert mcp(ask_limited_client).status_code == 200
 
 
 def test_ask_rate_limit_applies_before_the_model_is_called(limited_client, store, llm):

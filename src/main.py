@@ -4,8 +4,8 @@ from workers import asgi
 from api.ai import router as ai_router
 from api.cors import EnvCORSMiddleware
 from api.mcp import router as mcp_router
-from api.ping import router as ping_router
 from api.rate_limit import rate_limit
+from api.security_headers import SecurityHeadersMiddleware
 
 ALLOWED_ORIGINS = [
     "https://henrikbecker.net",
@@ -21,7 +21,7 @@ DEV_ORIGINS = [
 
 app = FastAPI(title="Henr API", redoc_url=None)
 
-# Added last = outermost, so CORS headers are also present on 429 responses.
+# Wraps the routes, so CORS headers are also present on 429 responses.
 app.add_middleware(
     EnvCORSMiddleware,
     allow_origins=ALLOWED_ORIGINS,
@@ -30,8 +30,9 @@ app.add_middleware(
     allow_headers=["Content-Type"],
     max_age=86400,
 )
+# Added last = outermost, so every response gets the headers, CORS preflights included.
+app.add_middleware(SecurityHeadersMiddleware)
 
-app.include_router(ping_router, dependencies=[Depends(rate_limit)])
 app.include_router(mcp_router, dependencies=[Depends(rate_limit)])
 # /ask and /ingest (used by the CV bot), with /ai/... as alias.
 app.include_router(ai_router, dependencies=[Depends(rate_limit)])
