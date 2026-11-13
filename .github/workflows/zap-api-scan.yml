@@ -9,6 +9,9 @@
 # Not run on pull requests: the target is production, not the PR's code.
 # Reports (HTML, Markdown, JSON) are uploaded as the `zap_scan` artifact.
 # Findings can be suppressed, with a reason, in a rules file passed via `rules_file_name`.
+#
+# Runs on the self-hosted runner: the job has no secrets, only a read-only GITHUB_TOKEN.
+# The action runs ZAP in Docker, so the runner needs Docker.
 
 name: ZAP API Scan
 
@@ -23,7 +26,7 @@ permissions:
 jobs:
   zap:
     name: ZAP API scan
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux]
     steps:
       - uses: zaproxy/action-api-scan@5158fe4d9d8fcc75ea204db81317cce7f9e5453d # v0.10.0
         with:
