@@ -14,6 +14,7 @@ import os
 import sys
 import time
 import urllib.error
+import urllib.parse
 import urllib.request
 from pathlib import Path
 
@@ -23,8 +24,18 @@ sys.path.insert(0, str(TESTS))
 from eval_cases import CASES  # noqa: E402
 
 
+def require_http_url(url: str) -> str:
+    """Reject anything but http(s) URLs; urlopen would also follow file:// and ftp://."""
+    parsed = urllib.parse.urlparse(url)
+    if parsed.scheme not in ("http", "https") or not parsed.netloc:
+        sys.exit(f"base_url must be an http(s) URL, got {url!r}")
+    return url
+
+
 def post(url: str, body: bytes, headers: dict[str, str]) -> tuple[int, str]:
-    request = urllib.request.Request(url, data=body, headers=headers, method="POST")
+    request = urllib.request.Request(
+        require_http_url(url), data=body, headers=headers, method="POST"
+    )
     for attempt in range(3):
         try:
             with urllib.request.urlopen(request, timeout=60) as response:
