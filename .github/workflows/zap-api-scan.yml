@@ -7,7 +7,7 @@
 # meant to run against a local `pywrangler dev` later (see #19).
 #
 # Not run on pull requests: the target is production, not the PR's code.
-# Reports (HTML, Markdown, JSON) are uploaded as the `zap_scan` artifact.
+# Reports (HTML, Markdown, JSON) are uploaded as the `<repo>-zap-api` artifact.
 # Findings can be suppressed, with a reason, in a rules file passed via `rules_file_name`.
 
 name: ZAP API Scan
@@ -31,4 +31,5 @@ jobs:
           format: openapi
           cmd_options: "-S"
           allow_issue_writing: false
+          artifact_name: ${{ github.event.repository.name }}-zap-api
           fail_action: false
